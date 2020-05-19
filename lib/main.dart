@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -13,14 +14,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BotToastInit(
         child: MaterialApp(
-      title: '战疫情',
+      title: '疫情信息',
       navigatorKey: navGK,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.red),
+      theme: ThemeData( primaryColor: Colors.blue),
       localizationsDelegates: [
         //国际化
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        const FallbackCupertinoLocalisationsDelegate(),
       ],
       navigatorObservers: [BotToastNavigatorObserver()],
       supportedLocales: [
@@ -34,4 +36,19 @@ class MyApp extends StatelessWidget {
       },
     ));
   }
+}
+
+class FallbackCupertinoLocalisationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const FallbackCupertinoLocalisationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) =>
+      DefaultCupertinoLocalizations.load(locale);
+
+  @override
+  bool shouldReload(FallbackCupertinoLocalisationsDelegate old) => false;
 }

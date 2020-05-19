@@ -28,6 +28,8 @@ class _RumorState extends State<Rumor> {
       new GlobalKey<RefreshFooterState>();
   int page = 1;
   bool isEnd = false;
+  Color backgroundColor = Color(0xffe0c3fc);
+  Color lightWhite=Color(0x88ffffff);
   Future<void> _onRefresh() async {
     page = 1;
     rumorList.clear();
@@ -38,6 +40,9 @@ class _RumorState extends State<Rumor> {
     final rumor = rumorFromJson(convert.jsonEncode(await getRumor(page)));
     for (var item in rumor.newslist) {
       Widget rumor = Card(
+        elevation: 0,
+        margin: EdgeInsets.all(10),
+        color: lightWhite,
         child: InkWell(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -134,9 +139,12 @@ class _RumorState extends State<Rumor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("权威辟谣"),
+        title: Text(
+          "权威辟谣",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
-        backgroundColor: Colors.red[300],
+        backgroundColor: backgroundColor,
       ),
       body: EasyRefresh(
           key: _easyRefreshKey,
@@ -158,10 +166,20 @@ class _RumorState extends State<Rumor> {
               padding: EdgeInsets.all(0.0),
               //滑动到底部回弹效果
               physics: BouncingScrollPhysics(),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: rumorList))),
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                      Color(0xff8EC5FC),
+                      Color(0xffE0C3FC),
+                    ])),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: rumorList),
+              ))),
     );
   }
 

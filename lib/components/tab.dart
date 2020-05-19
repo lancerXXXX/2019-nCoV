@@ -28,7 +28,6 @@ class _TabWidgetState extends State<TabWidget> {
       ..add(Rumor())
       ..add(gather());
     super.initState();
-    
   }
 
   @override
@@ -39,8 +38,9 @@ class _TabWidgetState extends State<TabWidget> {
         children: list,
       ),
       bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xff8EC5FC),
           unselectedItemColor: Colors.black,
-          selectedItemColor: Color(0xffEA3369),
+          selectedItemColor: Color(0xff333333),
           selectedFontSize: 9.0,
           unselectedFontSize: 9.0,
           iconSize: 22.0,

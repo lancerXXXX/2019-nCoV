@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:disease/api/api.dart';
 import 'package:disease/components/Browser.dart';
 import 'package:disease/model/EpidemicDetail.dart';
@@ -15,16 +17,38 @@ class RealTimeNews extends StatefulWidget {
   _RealTimeNewsState createState() => _RealTimeNewsState();
 }
 
-class _RealTimeNewsState extends State<RealTimeNews> {
+class _RealTimeNewsState extends State<RealTimeNews>
+    with TickerProviderStateMixin {
   List<Widget> tableListWidget = new List(); //数据表格table组件
   Future _getDatas; //多个请求结婚
   int flag = 100000; //表格是否隐藏
   List<Widget> newsListWidget = new List(); //新闻列表组件
+  AnimationController _controller;
+  AnimationController _controllerNews;
+  Animation<double> _animation;
+  Animation<double> _animationNews;
+  bool TableisExpand = false;
+  bool newsIsExpand = false;
+  ScrollController scrollController = ScrollController();
+  Color backgroundColor = Color(0xffe0c3fc);
+  Color lightWhite=Color(0x88ffffff);
 
   @override
   void initState() {
     super.initState();
+    _controller = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 500));
+    _animation = Tween(begin: 0.1, end: 1.0).animate(_controller);
+    _controllerNews = new AnimationController(
+        vsync: this, duration: Duration(milliseconds: 500));
+    _animationNews = Tween(begin: 0.01, end: 1.0).animate(_controllerNews);
     _getDatas = getDatas();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -41,132 +65,162 @@ class _RealTimeNewsState extends State<RealTimeNews> {
 
             return Scaffold(
                 appBar: AppBar(
-                  title: Text("实时疫情"),
+                  title: Text("实时疫情", style: TextStyle(color: Colors.black)),
                   centerTitle: true,
-                  backgroundColor: Colors.red[300],
+                  backgroundColor: backgroundColor,
                 ),
-                body: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10, bottom: 15),
-                      child: Text(
-                        "数据来自官方通报 全国与各省通报数据可能存在差异:",
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold),
+                body: Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+            Color(0xff8EC5FC),
+            Color(0xffE0C3FC),
+          ])),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, left: 10, bottom: 15),
+                        child: Text(
+                          "数据来自官方通报 全国与各省通报数据可能存在差异:",
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 2),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Column(
+                      Card(
+                        elevation: 0,
+                        color: lightWhite,
+                        margin: EdgeInsets.all(10),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  "省市",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13.0),
-                                )
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "省市",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "确诊",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "治愈",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "死亡",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  flex: 1,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 2),
+                                ),
                               ],
                             ),
-                          ),
-                          flex: 1,
+                            SizeTransition(
+                              sizeFactor: _animation,
+                              child: Column(
+                                children: tableListWidget,
+                              ),
+                            ),
+                            FlatButton(
+                              child: Icon(Icons.arrow_drop_down),
+                              onPressed: () {
+                                if (TableisExpand) {
+                                  _controller.reset();
+                                  TableisExpand = false;
+                                  scrollController.jumpTo(
+                                      scrollController.position.minScrollExtent);
+                                } else {
+                                  _controller.forward();
+                                  TableisExpand = true;
+                                }
+                              },
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 2),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
+                      ),
+                      Card(
+                          color: lightWhite,
+                          elevation: 0,
+                          margin: EdgeInsets.all(10),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 30),
                             child: Column(
                               children: <Widget>[
-                                Text(
-                                  "确诊",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13.0),
-                                )
+                                Column(
+                                  children: newsListWidget,
+                                ),
                               ],
                             ),
-                          ),
-                          flex: 1,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 2),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  "治愈",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13.0),
-                                )
-                              ],
-                            ),
-                          ),
-                          flex: 1,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 2),
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Column(
-                              children: <Widget>[
-                                Text(
-                                  "死亡",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13.0),
-                                )
-                              ],
-                            ),
-                          ),
-                          flex: 1,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 2),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: tableListWidget,
-                    ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(top: 20),
-                    // ),
-                    // Card(
-                    //   color: Colors.red[200],
-                    //   child: Padding(
-                    //     child: Text(
-                    //       "最新疫情新闻：",
-                    //       style: TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 13.0,
-                    //           color: Colors.white),
-                    //     ),
-                    //     padding: EdgeInsets.only(
-                    //         top: 10.0, left: 10.0, bottom: 10.0),
-                    //   ),
-                    // ),
-                    Column(
-                      children: newsListWidget,
-                    )
-                  ],
+                          ))
+                    ],
+                  ),
                 ));
           } else {
             return Center(
@@ -204,12 +258,12 @@ class _RealTimeNewsState extends State<RealTimeNews> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 10.0,
-                                color: Colors.teal[300],
+//                                color: Colors.white70,
                               ),
                             ),
                             Padding(
                               child: Icon(Icons.keyboard_arrow_right,
-                                  size: 16.0, color: Colors.teal[300]),
+                                  size: 16.0, color: Colors.white70),
                               padding: EdgeInsets.only(top: 3),
                             )
                           ],
@@ -319,7 +373,7 @@ class _RealTimeNewsState extends State<RealTimeNews> {
                 child: InkWell(
                   child: Container(
                     padding: EdgeInsets.all(8),
-                    color: Colors.teal[300],
+                    color: Colors.black12,
                     child: Column(
                       children: <Widget>[
                         Row(
@@ -327,14 +381,13 @@ class _RealTimeNewsState extends State<RealTimeNews> {
                             Icon(
                               Icons.arrow_drop_down,
                               size: 16,
-                              color: Colors.white,
                             ),
                             Text(
                               newslist[i].provinceShortName,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 10.0,
-                                  color: Colors.white),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10.0,
+                              ),
                             )
                           ],
                         )
@@ -361,7 +414,7 @@ class _RealTimeNewsState extends State<RealTimeNews> {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.grey[100],
+                  color: Colors.grey[50],
                   padding: EdgeInsets.all(8),
                   child: Column(
                     children: <Widget>[
@@ -380,7 +433,7 @@ class _RealTimeNewsState extends State<RealTimeNews> {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.grey[100],
+                  color: Colors.grey[50],
                   padding: EdgeInsets.all(8),
                   child: Column(
                     children: <Widget>[
@@ -399,7 +452,7 @@ class _RealTimeNewsState extends State<RealTimeNews> {
               ),
               Expanded(
                 child: Container(
-                  color: Colors.grey[100],
+                  color: Colors.grey[50],
                   padding: EdgeInsets.all(8),
                   child: Column(
                     children: <Widget>[
@@ -442,6 +495,7 @@ class _RealTimeNewsState extends State<RealTimeNews> {
         child: Card(
           borderOnForeground: false,
           elevation: 0.0,
+          color: Color(0x88ffffff),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
