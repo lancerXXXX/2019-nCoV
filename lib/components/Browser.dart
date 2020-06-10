@@ -14,7 +14,7 @@ class Browser extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         centerTitle: true,
-        backgroundColor: Colors.red[300],
+        backgroundColor: Color(0xffE0C3FC),
       ),
       body: WebView(
         initialUrl: url,

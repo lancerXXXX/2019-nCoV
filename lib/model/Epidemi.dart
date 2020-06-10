@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final epidemi = epidemiFromJson(jsonString);
-
 import 'dart:convert';
 
 Epidemi epidemiFromJson(String str) => Epidemi.fromJson(json.decode(str));

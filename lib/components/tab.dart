@@ -1,10 +1,3 @@
-/*
- * @Descripttion: tab导航页面
- * @Author: 伍亮
- * @Date: 2020-01-04 14:39:02
- * @LastEditTime : 2020-01-19 09:39:50
- */
-
 import 'package:flutter/material.dart';
 import 'package:disease/page/epidemicMap/epidemicMap.dart';
 import 'package:disease/page/realTimeNews/realTimeNews.dart';

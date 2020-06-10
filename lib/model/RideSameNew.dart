@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final rideSameNew = rideSameNewFromJson(jsonString);
-
 import 'dart:convert';
 
 RideSameNew rideSameNewFromJson(String str) =>

@@ -5,7 +5,6 @@ import 'package:disease/api/api.dart';
 import 'package:disease/components/Browser.dart';
 import 'package:disease/model/RideSameNew.dart';
 import 'package:flutter/material.dart';
-import 'package:disease/model/RideSame.dart';
 import 'dart:convert' as convert;
 
 class RideCheck extends StatefulWidget {

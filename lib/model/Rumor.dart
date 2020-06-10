@@ -1,8 +1,3 @@
-// To parse this JSON data, do
-//
-//     final rumor = rumorFromJson(jsonString);
-///谣言实体
-
 import 'dart:convert';
 
 Rumor rumorFromJson(String str) => Rumor.fromJson(json.decode(str));

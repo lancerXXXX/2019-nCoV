@@ -33,14 +33,6 @@ class Api {
     return result;
   }
 
-  ///最新疫情消息
-  // static final String epidemicUrl = "/ncov/index?key=" + key;
-  // static Future epidemi(data) async {
-  //   var result =
-  //       await HttpUtils.request(epidemicUrl, method: HttpUtils.GET, data: data);
-  //   return result;
-  // }
-
   static final String epidemicUrl =
       "https://www.wuliang.art/ncov/statistics/flutterAppForMyself";
 
@@ -52,13 +44,6 @@ class Api {
     return result;
   }
 
-  ///同乘查询
-  // static final String rideUrl = "/ncovsame/index?key=" + key;
-  // static Future ride(data) async {
-  //   var result =
-  //       await HttpUtils.request(rideUrl, method: HttpUtils.GET, data: data);
-  //   return result;
-  // }
 
   ///夸克同乘查询
   static final String rideUrl =
@@ -83,9 +68,6 @@ class Api {
   }
 
   ///获取全国最新的新闻数据
-  // static final String newNewsUrl =
-  //     "https://lab.isaaclin.cn/nCoV/api/news?num=50";
-
   static final String newNewsUrl =
       "http://49.232.173.220:3001/data/getTimelineService";
 

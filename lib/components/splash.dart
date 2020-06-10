@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> {
         "加载中...",
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
       ),
-      image: Image.asset("assets/images/start.png", fit: BoxFit.fill),
+      image: Image.asset("assets/images/icon.jpg", fit: BoxFit.fill),
       backgroundColor: Colors.white,
       styleTextUnderTheLoader: TextStyle(),
       photoSize: 60.0,
